@@ -1,0 +1,20 @@
+{
+    "name": "robotics_nd",
+    "image": "carlosgalvezp/robotics_nd:latest",
+    "runArgs": [
+        "--user", "1000:1000",
+        "--env", "HOME=/tmp/",
+        "--env", "DISPLAY",
+        "--volume", "/home/${env:USER}/.bashrc/:/tmp/.bashrc_host:ro",
+        "--volume", "/tmp/:/home/${env:USER}",
+        "--volume", "/etc/passwd:/etc/passwd:ro",
+        "--volume", "/etc/group:/etc/group:ro",
+        "--volume", "/tmp/.X11-unix:/tmp/.X11-unix:rw",
+        "--gpus", "all",
+        "--ipc", "host",  // https://github.com/osrf/docker_images/issues/21
+    ],
+    "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+    },
+    "postCreateCommand": "cp /tmp/.bashrc_host /tmp/.bashrc && echo 'source /opt/ros/kinetic/setup.bash' >> /tmp/.bashrc"
+}
